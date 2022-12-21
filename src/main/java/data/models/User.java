@@ -20,9 +20,13 @@ public class User {
     private String email;
     @DBRef
     private Address address;
+    @DBRef
     private Item item;
+    @DBRef
     private Location location;
     @NotNull(message = "password field cannot be empty")
     private String password;
+    @NotNull(message = "")
+    private String phoneNumber;
 
 }

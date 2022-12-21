@@ -1,9 +1,9 @@
 package services;
 
-import data.repositories.UserRepository;
+import data.dtos.repositories.UserRepository;
 import org.springframework.stereotype.Service;
 
-@Service
+//@Service
 public class SenderService {
     private UserRepository userRepository;
 
