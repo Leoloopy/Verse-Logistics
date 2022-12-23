@@ -22,4 +22,19 @@ public class ItemServiceImpl implements ItemService {
     public void deleteAllItems() {
         itemRepository.deleteAll();
     }
+
+    @Override
+    public void removeItem(Item savedItem) {
+        itemRepository.delete(savedItem);
+    }
+
+    @Override
+    public Item getItemByName(String itemName) {
+        return itemRepository.findItemByName(itemName);
+    }
+
+    @Override
+    public Item getItemById(String s) {
+        return itemRepository.findItemById(s);
+    }
 }

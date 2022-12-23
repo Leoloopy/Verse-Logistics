@@ -22,7 +22,6 @@ class ItemServiceTest {
 
     private AddNewItemRequest addNewItemRequest;
 
-
     @BeforeEach
     void setUp() {
        addNewItemRequest = new AddNewItemRequest("cloth", Category.NON_FRAGILE);
@@ -30,13 +29,20 @@ class ItemServiceTest {
 
     @AfterEach
     void tearDown() {
-    itemService.deleteAllItems();
+        itemService.deleteAllItems();
     }
 
     @Test
-    void testThatUserCanBeRegistered(){
+    void testThatItemCanBeAdded(){
         var savedItems = itemService.addItem(addNewItemRequest);
-        assertEquals(String.valueOf(List.of(addNewItemRequest.getItem()
-        )), String.valueOf(List.of(savedItems.getName() ) ));
+        assertEquals(savedItems, itemService.getItemById(savedItems.getId()));
+    }
+
+    @Test
+    void testThatItemCanBeRemoved(){
+        var newItemRequest = new AddNewItemRequest("bag", Category.NON_FRAGILE);
+        var savedItems = itemService.addItem(newItemRequest);
+        itemService.removeItem(savedItems);
+        assertNull(itemService.getItemByName(savedItems.getName()));
     }
 }

@@ -1,5 +1,6 @@
 package data.dtos.request;
 
+import data.models.Address;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -7,11 +8,11 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class CreateUserRequestSignUp {
+public class CreateNewUserRequest {
     private String firstName;
     private String lastName;
+    private String Email;
     private String password;
-    private int age;
     private String mobileNumber;
-
+    private Address address;
 }
