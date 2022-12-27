@@ -11,11 +11,8 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Document
 @Builder
 public class Address {
-    @Id
-    private String Id;
     @NotNull(message = "field cannot be empty")
     private String city;
     private String country;
