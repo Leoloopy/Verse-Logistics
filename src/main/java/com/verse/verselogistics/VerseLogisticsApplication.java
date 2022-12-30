@@ -7,12 +7,12 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
 
 @SpringBootApplication
 @ComponentScan(basePackages = {"services"})
+@ComponentScan(basePackages = {"controllers"})
 @ComponentScan(basePackages = {"data.dtos.repositories"})
+@ComponentScan(basePackages = {"advice"})
 @EnableMongoRepositories(basePackages = {"data.dtos.repositories"})
 public class VerseLogisticsApplication {
-
     public static void main(String[] args) {
         SpringApplication.run(VerseLogisticsApplication.class, args);
     }
-
 }

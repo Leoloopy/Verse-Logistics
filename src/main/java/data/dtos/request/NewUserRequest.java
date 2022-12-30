@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class CreateSenderRequest {
+public class NewUserRequest {
     @NotBlank(message = "firstName cannot be empty")
     private String firstName;
     @NotBlank(message = "lastName cannot be empty")
@@ -27,7 +27,6 @@ public class CreateSenderRequest {
     @NotBlank(message = "field cannot be empty")
     private String phoneNumber;
     private LocalDateTime creationDate;
-    @NotBlank(message = "field cannot be empty")
     private Address address;
 
 }

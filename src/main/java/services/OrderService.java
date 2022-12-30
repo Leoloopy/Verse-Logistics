@@ -1,9 +1,7 @@
 package services;
 
 import data.dtos.request.NewOrderRequest;
-import data.models.Address;
 import data.models.DeliveryStatus;
-import data.models.Item;
 import data.models.Order;
 
 import java.util.List;
@@ -15,5 +13,6 @@ public interface OrderService {
     Order getOrderById(String Id);
     void cancelOrder(String id);
     void deleteAllOrders();
-    List<Order> getAllOrders(String s);
+    List<Order> getAllOrdersBySenderId(String s);
+    List<Order> getAllSendersOrders();
 }

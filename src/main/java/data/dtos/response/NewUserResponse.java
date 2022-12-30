@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 @Builder
-public class SenderResponse {
+public class NewUserResponse {
     private String firstName;
     private String id;
     private String email;

@@ -1,5 +1,6 @@
 package data.models;
 
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,12 +14,12 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @NoArgsConstructor
 @Builder
 public class Address {
-    @NotNull(message = "field cannot be empty")
+    @NotBlank(message = "field cannot be empty")
     private String city;
     private String country;
-    @NotNull(message = "field cannot be empty")
+    @NotBlank(message = "field cannot be empty")
     private String state;
-    @NotNull(message = "field cannot be empty")
+    @NotBlank(message = "field cannot be empty")
     private String street;
 
 }

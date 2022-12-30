@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 
 @Data
 @Builder
-public class OrderResponse {
+public class NewOrderResponse {
     private String userId;
     private String orderId;
     private LocalDateTime orderDate;

@@ -2,6 +2,7 @@ package services;
 
 import com.verse.verselogistics.VerseLogisticsApplication;
 import data.dtos.request.NewOrderRequest;
+import data.dtos.response.NewOrderResponse;
 import data.models.*;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -51,8 +52,6 @@ class OrderServiceImplTest {
      items.add(item2);
      items.add(item3);
 
-
-
         newOrderRequest = NewOrderRequest.builder()
                 .receiverName("Bukola Elemide")
                 .receiverAddress(receiverAddress)
@@ -63,7 +62,7 @@ class OrderServiceImplTest {
 
     @AfterEach
     void tearDown() {
-        orderService.deleteAllOrders();
+       orderService.deleteAllOrders();
     }
 
     @Test
@@ -81,17 +80,6 @@ class OrderServiceImplTest {
         assertNull(orderService.getOrderById(savedOrder.getOrderId()));
     }
 
-    /*
-    @Test
-    void testThatAllOrdersCanBeViewed() {
-        Order savedOrder1 = orderService.saveOrder(newOrderRequest, receiverAddress, items );
-        Order savedOrder2 = orderService.saveOrder(newOrderRequest, receiverAddress, items );
-        Order savedOrder3 = orderService.saveOrder(newOrderRequest, receiverAddress, items );
-
-        List<Order> allOrders = orderService.getAllOrders(savedOrder1.getSenderId());
-        assertEquals(3, allOrders.size());
-    }
-     */
 
     @Test
     void testThatWeCanCheckDeliveryStatusOfAnOrder() {
@@ -106,10 +94,17 @@ class OrderServiceImplTest {
         assertEquals(DeliveryStatus.ON_HOLD, orderService.checkDeliveryStatus(savedOrder.getOrderId()));
     }
 
-    /*
     @Test
-    void updateOrder() {
-        Order savedOrder = orderService.saveOrder(newOrderRequest, receiverAddress, items );
+    void testThatAllOrdersInDBCanBeRetrieved(){
+        Order savedOrder = orderService.saveOrder(newOrderRequest);
+        Order savedOrder1 = orderService.saveOrder(newOrderRequest);
+        Order savedOrder2 = orderService.saveOrder(newOrderRequest);
+
+        List<Order> getAllOrders = orderService.getAllSendersOrders();
+
+        assertEquals(3, getAllOrders.size());
+
+
     }
-     */
+
 }

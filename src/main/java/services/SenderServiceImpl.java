@@ -1,16 +1,17 @@
 package services;
 
 import data.dtos.repositories.SenderRepository;
-import data.dtos.request.CreateSenderRequest;
+import data.dtos.request.NewUserRequest;
 import data.dtos.request.LoginRequest;
 import data.dtos.request.NewOrderRequest;
 import data.dtos.response.LoginResponse;
-import data.dtos.response.OrderResponse;
-import data.dtos.response.SenderResponse;
+import data.dtos.response.NewOrderResponse;
+import data.dtos.response.NewUserResponse;
 import data.models.*;
+import exceptions.UserAlreadyExistException;
 import exceptions.UserNotfoundException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.expression.spel.ast.OperatorInstanceof;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -18,6 +19,7 @@ import java.util.HashSet;
 import java.util.List;
 
 @Service
+@Qualifier("sender")
 public class SenderServiceImpl implements UserService {
 
     @Autowired
@@ -27,7 +29,11 @@ public class SenderServiceImpl implements UserService {
     private OrderService orderService;
 
     @Override
-    public SenderResponse registerSender(CreateSenderRequest senderRequest) {
+    public NewUserResponse registerUser(NewUserRequest senderRequest) {
+
+        if (checkDBForExistingAccount(senderRequest))
+            throw new UserAlreadyExistException("user with " + senderRequest.getEmail() + " already exist");
+
         HashSet<Address> senderAddress = new HashSet<>();
         senderAddress.add(senderRequest.getAddress());
 
@@ -42,11 +48,16 @@ public class SenderServiceImpl implements UserService {
 
         User savedUser = senderRepository.save(sender);
 
-        return SenderResponse.builder()
+        return NewUserResponse.builder()
                 .id(savedUser.getUserId())
                 .firstName(savedUser.getFirstName())
                 .email(savedUser.getEmail())
                 .build();
+    }
+
+    private boolean checkDBForExistingAccount(NewUserRequest senderRequest){
+        Sender checkMail = senderRepository.findSenderByEmail(senderRequest.getEmail());
+        return checkMail != null;
     }
 
     @Override
@@ -56,7 +67,7 @@ public class SenderServiceImpl implements UserService {
         if (checkLoginRequest) {
             findSenderInDB = senderRepository.findSenderByEmail(loginRequest.getEmail());
         } else {
-            throw new UserNotfoundException("user with the email " + loginRequest.getEmail() + " not found");
+            throw new UserNotfoundException("invalid credentials");
         }
         return LoginResponse.builder()
                 .Id(findSenderInDB.getUserId())
@@ -78,14 +89,16 @@ public class SenderServiceImpl implements UserService {
 
 
     @Override
-    public User getSenderById(String s) {
-        return senderRepository.findSenderByUserId(s);
+    public User getUserById(String s) {
+        User getUser =  senderRepository.findSenderByUserId(s);
+        if(getUser != null) return getUser;
+        throw new UserNotfoundException("user with id -> " + s + " not found");
     }
 
     @Override
-    public OrderResponse sendOrder(NewOrderRequest orderRequest) {
+    public NewOrderResponse sendOrder(NewOrderRequest orderRequest) {
         Order createdOrder = orderService.saveOrder(orderRequest);
-        return OrderResponse.builder()
+        return NewOrderResponse.builder()
                 .orderId(createdOrder.getOrderId())
                 .userId(createdOrder.getSenderId())
                 .receiverName(createdOrder.getReceiverName())
@@ -111,7 +124,23 @@ public class SenderServiceImpl implements UserService {
 
     @Override
     public List<Order> getAllSendersOrder(String id) {
-        return orderService.getAllOrders(id);
+        return orderService.getAllOrdersBySenderId(id);
+    }
+
+    // NO IMPLEMENTATION --> SPECIFIC TO COURIER SERVICE
+    @Override
+    public List<Order> getAllOrders() {
+        return null;
+    }
+
+    @Override
+    public Order getOrderById(String s) {
+        return null;
+    }
+
+    @Override
+    public DeliveryStatus confirmDeliveryStatus(String id) {
+        return null;
     }
 }
 

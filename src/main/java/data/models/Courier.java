@@ -7,7 +7,4 @@ import org.springframework.data.mongodb.core.mapping.DBRef;
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class Courier extends User{
-
-    @DBRef
-    private Vehicle vehicle;
 }
