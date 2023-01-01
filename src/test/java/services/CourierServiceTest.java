@@ -2,6 +2,8 @@ package services;
 
 import com.verse.verselogistics.VerseLogisticsApplication;
 import data.dtos.repositories.CourierRepository;
+import data.dtos.repositories.OrderRepository;
+import data.dtos.request.DeliveryStatusRequest;
 import data.dtos.request.LoginRequest;
 import data.dtos.request.NewOrderRequest;
 import data.dtos.request.NewUserRequest;
@@ -32,6 +34,8 @@ class CourierServiceTest {
     private NewOrderRequest orderRequest;
     @Autowired
     private CourierRepository courierRepository;
+    @Autowired
+    private OrderRepository orderRepository;
     @Autowired
     private OrderService orderService;
 
@@ -84,6 +88,7 @@ class CourierServiceTest {
     @AfterEach
     void tearDown() {
         courierRepository.deleteAll();
+        orderRepository.deleteAll();
     }
 
     @Test
@@ -163,6 +168,17 @@ class CourierServiceTest {
         Order savedOrder = orderService.saveOrder(orderRequest);
         userService.cancelOrderById(savedOrder.getOrderId());
         assertEquals(DeliveryStatus.ON_HOLD, userService.checkDeliveryStatus(savedOrder.getOrderId()));
+    }
+
+    @Test
+    void testThatCourierCanConfirmDeliveryStatus() {
+        Order savedOrder = orderService.saveOrder(orderRequest);
+        DeliveryStatusRequest req = DeliveryStatusRequest.builder()
+                .id(savedOrder.getOrderId())
+                .deliveryStatus(DeliveryStatus.DELIVERED)
+                .build();
+        var res = userService.confirmDeliveryStatus(req);
+        assertEquals(res.getDeliveryStatus(), userService.checkDeliveryStatus(savedOrder.getOrderId()));
     }
 
 }

@@ -1,6 +1,7 @@
 package services;
 
 import com.verse.verselogistics.VerseLogisticsApplication;
+import data.dtos.request.DeliveryStatusRequest;
 import data.dtos.request.NewOrderRequest;
 import data.dtos.response.NewOrderResponse;
 import data.models.*;
@@ -103,8 +104,17 @@ class OrderServiceImplTest {
         List<Order> getAllOrders = orderService.getAllSendersOrders();
 
         assertEquals(3, getAllOrders.size());
+    }
 
-
+    @Test
+    void testThatDeliveryStatusCanBeConfirmed(){
+        Order savedOrder = orderService.saveOrder(newOrderRequest);
+        DeliveryStatusRequest request = DeliveryStatusRequest.builder()
+                .id(savedOrder.getOrderId())
+                .deliveryStatus(DeliveryStatus.EN_ROUTE)
+                .build();
+        var response = orderService.confirmDeliveryStatus(request);
+        assertEquals(response.getDeliveryStatus(), orderService.checkDeliveryStatus(savedOrder.getOrderId()));
     }
 
 }

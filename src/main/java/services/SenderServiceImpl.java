@@ -1,9 +1,11 @@
 package services;
 
 import data.dtos.repositories.SenderRepository;
+import data.dtos.request.DeliveryStatusRequest;
 import data.dtos.request.NewUserRequest;
 import data.dtos.request.LoginRequest;
 import data.dtos.request.NewOrderRequest;
+import data.dtos.response.DeliveryStatusResponse;
 import data.dtos.response.LoginResponse;
 import data.dtos.response.NewOrderResponse;
 import data.dtos.response.NewUserResponse;
@@ -139,9 +141,10 @@ public class SenderServiceImpl implements UserService {
     }
 
     @Override
-    public DeliveryStatus confirmDeliveryStatus(String id) {
+    public DeliveryStatusResponse confirmDeliveryStatus(DeliveryStatusRequest req) {
         return null;
     }
+
 }
 
 

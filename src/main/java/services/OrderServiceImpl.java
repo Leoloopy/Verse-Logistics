@@ -2,7 +2,9 @@ package services;
 
 
 import data.dtos.repositories.OrderRepository;
+import data.dtos.request.DeliveryStatusRequest;
 import data.dtos.request.NewOrderRequest;
+import data.dtos.response.DeliveryStatusResponse;
 import data.models.Address;
 import data.models.DeliveryStatus;
 import data.models.Item;
@@ -86,6 +88,16 @@ public class OrderServiceImpl implements OrderService{
        Order findOrder = orderRepository.findOrderByOrderId(id);
         findOrder.setDeliveryStatus(DeliveryStatus.ON_HOLD);
         orderRepository.save(findOrder);
+    }
+
+    @Override
+    public DeliveryStatusResponse confirmDeliveryStatus(DeliveryStatusRequest request) {
+        Order findOrder = orderRepository.findOrderByOrderId(request.getId());
+        findOrder.setDeliveryStatus(request.getDeliveryStatus());
+        orderRepository.save(findOrder);
+        return DeliveryStatusResponse.builder()
+                .deliveryStatus(request.getDeliveryStatus())
+                .build();
     }
 
     @Override

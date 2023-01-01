@@ -1,6 +1,8 @@
 package controllers;
 
+import data.dtos.request.DeliveryStatusRequest;
 import data.dtos.request.NewUserRequest;
+import data.dtos.response.DeliveryStatusResponse;
 import data.dtos.response.NewUserResponse;
 import data.models.DeliveryStatus;
 import data.models.Order;
@@ -37,6 +39,12 @@ public class CourierController {
     public ResponseEntity<List<Order>> getAllOrders(){
     List<Order> allOrders = userService.getAllOrders();
     return ResponseEntity.ok(allOrders);
+    }
+
+    @PostMapping("/confirm-delivery-status")
+    public ResponseEntity<DeliveryStatusResponse> confirmDeliveryStatus(@RequestBody DeliveryStatusRequest req){
+        var  status = userService.confirmDeliveryStatus(req);
+        return new ResponseEntity<>(status,HttpStatus.ACCEPTED);
     }
 
 

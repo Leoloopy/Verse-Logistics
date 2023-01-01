@@ -1,9 +1,11 @@
 package services;
 
 import data.dtos.repositories.CourierRepository;
+import data.dtos.request.DeliveryStatusRequest;
 import data.dtos.request.NewUserRequest;
 import data.dtos.request.LoginRequest;
 import data.dtos.request.NewOrderRequest;
+import data.dtos.response.DeliveryStatusResponse;
 import data.dtos.response.LoginResponse;
 import data.dtos.response.NewOrderResponse;
 import data.dtos.response.NewUserResponse;
@@ -102,7 +104,6 @@ public class CourierServiceImpl implements UserService{
 
     @Override
     public void deleteOrderById(String s) {
-
     }
 
     @Override
@@ -112,8 +113,12 @@ public class CourierServiceImpl implements UserService{
 
     @Override
     public DeliveryStatus checkDeliveryStatus(String id) {
-
         return orderService.checkDeliveryStatus(id);
+    }
+
+    @Override
+    public DeliveryStatusResponse confirmDeliveryStatus(DeliveryStatusRequest req) {
+        return orderService.confirmDeliveryStatus(req);
     }
 
     @Override
@@ -131,8 +136,5 @@ public class CourierServiceImpl implements UserService{
         return orderService.getOrderById(s);
     }
 
-    @Override
-    public DeliveryStatus confirmDeliveryStatus(String id) {
-        return null;
-    }
+
 }

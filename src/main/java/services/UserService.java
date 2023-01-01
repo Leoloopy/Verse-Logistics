@@ -1,8 +1,10 @@
 package services;
 
+import data.dtos.request.DeliveryStatusRequest;
 import data.dtos.request.NewUserRequest;
 import data.dtos.request.LoginRequest;
 import data.dtos.request.NewOrderRequest;
+import data.dtos.response.DeliveryStatusResponse;
 import data.dtos.response.LoginResponse;
 import data.dtos.response.NewOrderResponse;
 import data.dtos.response.NewUserResponse;
@@ -23,5 +25,5 @@ public interface UserService {
     List<Order> getAllSendersOrder(String s);
     List<Order> getAllOrders();
     Order getOrderById(String s);
-    DeliveryStatus confirmDeliveryStatus(String id);
+    DeliveryStatusResponse confirmDeliveryStatus(DeliveryStatusRequest req);
 }
